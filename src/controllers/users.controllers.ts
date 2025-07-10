@@ -1,6 +1,8 @@
+import { RegisterReqBody } from '@/models/requests/User.requests';
 import userService from '@/services/users.services';
 import { Request, Response } from 'express';
-
+import { ParamsDictionary } from 'express-serve-static-core';
+import QueryString from 'qs';
 export const loginController = (req: Request, res: Response) => {
   const { email, password } = req.body;
   if (email === 'uongthanhtu@gmail11.com' && password === '12345678') {
@@ -14,10 +16,12 @@ export const loginController = (req: Request, res: Response) => {
   });
 };
 
-export const registerController = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+export const registerController = async (
+  req: Request<ParamsDictionary, any, RegisterReqBody, QueryString.ParsedQs>,
+  res: Response
+) => {
   try {
-    const result = await userService.register({ email, password });
+    const result = await userService.register(req.body);
     res.json({
       message: 'Register Success',
       result
