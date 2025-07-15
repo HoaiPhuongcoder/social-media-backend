@@ -12,6 +12,7 @@ databaseService.connect().catch(console.dir);
 app.use('/users', usersRouter);
 app.use((error: any, req: Request, res: Response, _next: NextFunction) => {
   res.status(400).json({
+    status: 'error',
     error: error.message
   });
 });
