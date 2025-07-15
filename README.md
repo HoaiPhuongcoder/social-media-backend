@@ -20,7 +20,7 @@ Một hệ thống backend mạnh mẽ, có khả năng mở rộng được xâ
 
 8. (Tùy chọn) Real-time: Thông báo và chat thời gian thực bằng WebSockets.
 
-#🚀 Công nghệ sử dụng
+# 🚀 Công nghệ sử dụng
 - Ngôn ngữ: TypeScript
 
 - Framework: Express.js
