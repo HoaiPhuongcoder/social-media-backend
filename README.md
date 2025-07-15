@@ -2,7 +2,7 @@
 
 Một hệ thống backend mạnh mẽ, có khả năng mở rộng được xây dựng cho một ứng dụng mạng xã hội hiện đại. API này cung cấp các chức năng cốt lõi bao gồm xác thực người dùng, tạo bài viết, tương tác (thích, bình luận), theo dõi người dùng và nhiều hơn nữa.
 
-## Tính năng
+# Tính năng
 
 1. Xác thực & Phân quyền: Đăng ký, đăng nhập, đăng xuất an toàn bằng JSON Web Tokens (JWT).
 
@@ -20,7 +20,7 @@ Một hệ thống backend mạnh mẽ, có khả năng mở rộng được xâ
 
 8. (Tùy chọn) Real-time: Thông báo và chat thời gian thực bằng WebSockets.
 
-##🚀 Công nghệ sử dụng
+#🚀 Công nghệ sử dụng
 - Ngôn ngữ: TypeScript
 
 - Framework: Express.js
