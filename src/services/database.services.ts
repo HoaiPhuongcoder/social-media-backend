@@ -1,3 +1,4 @@
+import RefreshToken from '@/models/schemas/RefreshToken.schema';
 import User from '@/models/schemas/User.schema';
 import { Collection, Db, MongoClient } from 'mongodb';
 
@@ -22,6 +23,9 @@ class DatabaseService {
   }
   get users(): Collection<User> {
     return this.db.collection(process.env.DB_USER_COLLECTION || 'users');
+  }
+  get refreshTokens(): Collection<RefreshToken> {
+    return this.db.collection(process.env.DB_REFRESH_TOKEN_COLLECTION || 'refresh_tokens');
   }
 }
 

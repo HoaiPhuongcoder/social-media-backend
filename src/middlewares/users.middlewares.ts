@@ -1,6 +1,7 @@
 import { USERS_MESSAGES } from '@/constants/messages';
 import databaseService from '@/services/database.services';
 import userService from '@/services/users.services';
+import { comparePassword } from '@/utils/crypto';
 import { validate } from '@/utils/validation';
 import { checkSchema } from 'express-validator';
 
@@ -18,6 +19,10 @@ export const loginValidator = validate(
           const user = await databaseService.users.findOne({ email: value });
           if (user === null) {
             throw new Error(USERS_MESSAGES.EMAIL_NOT_EXISTS);
+          }
+          const isValidPassword = await comparePassword(req.body.password, user.password);
+          if (!isValidPassword) {
+            throw new Error('Invalid password');
           }
           req.user = user;
           return true;

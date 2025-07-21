@@ -5,6 +5,7 @@ import { hashPassword } from '@/utils/crypto';
 import { signToken } from '@/utils/jwt';
 import { TokenType } from '@/constants/enums';
 import { SignOptions } from 'jsonwebtoken';
+import { ObjectId } from 'mongodb';
 
 class UserService {
   private async signAccessToken(user_id: string) {
@@ -41,6 +42,11 @@ class UserService {
     const user_id = result.insertedId.toString();
 
     const [access_token, refresh_token] = await this.signAccessAndRefreshToken(user_id);
+    await databaseService.refreshTokens.insertOne({
+      token: refresh_token,
+      user_id: new ObjectId(user_id),
+      created_at: new Date()
+    });
     return {
       access_token,
       refresh_token
@@ -49,6 +55,11 @@ class UserService {
 
   async login(user_id: string) {
     const [access_token, refresh_token] = await this.signAccessAndRefreshToken(user_id);
+    await databaseService.refreshTokens.insertOne({
+      token: refresh_token,
+      user_id: new ObjectId(user_id),
+      created_at: new Date()
+    });
     return {
       access_token,
       refresh_token
