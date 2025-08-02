@@ -15,8 +15,27 @@ export const signToken = ({
     jwt.sign(payload, privateKey, options, (error, token) => {
       if (error) {
         reject(error);
+      } else {
+        resolve(token as string);
       }
-      resolve(token as string);
+    });
+  });
+};
+
+export const verifyToken = ({
+  token,
+  privateKey = process.env.JWT_SECRET as string
+}: {
+  token: string;
+  privateKey?: string;
+}) => {
+  return new Promise<jwt.JwtPayload>((resolve, reject) => {
+    jwt.verify(token, privateKey, (err, decoded) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(decoded as jwt.JwtPayload);
+      }
     });
   });
 };

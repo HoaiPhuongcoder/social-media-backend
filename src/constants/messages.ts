@@ -22,5 +22,7 @@ export const USERS_MESSAGES = {
   DATE_OF_BIRTH_IS_REQUIRED: 'Date of birth is required',
   DATE_OF_BIRTH_INVALID: 'Date of birth is not valid',
   LOGIN_SUCCESS: 'Login Success',
-  REGISTER_SUCCESS: 'Register Success'
+  REGISTER_SUCCESS: 'Register Success',
+  ACCESS_TOKEN_IS_REQUIRED: 'Access token is required',
+  REFRESH_TOKEN_IS_REQUIRED: 'Refresh token is required'
 } as const;
