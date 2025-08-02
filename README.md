@@ -21,6 +21,7 @@ Một hệ thống backend mạnh mẽ, có khả năng mở rộng được xâ
 8. (Tùy chọn) Real-time: Thông báo và chat thời gian thực bằng WebSockets.
 
 # 🚀 Công nghệ sử dụng
+
 - Ngôn ngữ: TypeScript
 
 - Framework: Express.js
@@ -31,7 +32,9 @@ Một hệ thống backend mạnh mẽ, có khả năng mở rộng được xâ
 
 - Validation: express-validator
 
-- Upload File: Multer
+- Lưu trữ hình ảnh : AWS S3
+
+- Gửi email: Amazon SES
 
 - Real-time: Socket.IO (Tùy chọn)
 

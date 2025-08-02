@@ -6,6 +6,7 @@ import { signToken } from '@/utils/jwt';
 import { TokenType } from '@/constants/enums';
 import { SignOptions } from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
+import { USERS_MESSAGES } from '@/constants/messages';
 
 class UserService {
   private async signAccessToken(user_id: string) {
@@ -69,6 +70,13 @@ class UserService {
   async checkEmailExists(email: string) {
     const user = await databaseService.users.findOne({ email });
     return Boolean(user);
+  }
+
+  async logout(refresh_token: string) {
+    await databaseService.refreshTokens.deleteOne({ token: refresh_token });
+    return {
+      message: USERS_MESSAGES.LOGOUT_SUCCESS
+    };
   }
 }
 

@@ -7,6 +7,9 @@ import userService from '@/services/users.services';
 import { comparePassword } from '@/utils/crypto';
 import { validate } from '@/utils/validation';
 import { checkSchema } from 'express-validator';
+import { JsonWebTokenError } from 'jsonwebtoken';
+import { capitalize } from 'lodash';
+import { Request } from 'express';
 
 export const loginValidator = validate(
   checkSchema(
@@ -182,9 +185,16 @@ export const accessTokenValidator = validate(
                 status: HTTP_STATUS.UNAUTHORIZED
               });
             }
-            const decode_authorization = await verifyToken({ token: access_token });
-            req.decode_authorization = decode_authorization;
-            return true;
+            try {
+              const decode_authorization = await verifyToken({ token: access_token });
+              (req as Request).decode_authorization = decode_authorization;
+              return true;
+            } catch (error) {
+              throw new ErrorWithStatus({
+                message: capitalize((error as JsonWebTokenError).message),
+                status: HTTP_STATUS.UNAUTHORIZED
+              });
+            }
           }
         }
       }
@@ -202,7 +212,30 @@ export const refreshTokenValidator = validate(
         },
 
         custom: {
-          options: async (value: string, { req }) => {}
+          options: async (value: string, { req }) => {
+            try {
+              const [decode_refresh_token, refreshToken] = await Promise.all([
+                verifyToken({ token: value }),
+                databaseService.refreshTokens.findOne({ token: value })
+              ]);
+              if (!refreshToken) {
+                throw new ErrorWithStatus({
+                  message: USERS_MESSAGES.USED_REFRESH_TOKEN_OR_NOT_EXIST,
+                  status: 401
+                });
+              }
+              (req as Request).decode_refresh_token = decode_refresh_token;
+              return true;
+            } catch (error) {
+              if (error instanceof JsonWebTokenError) {
+                throw new ErrorWithStatus({
+                  message: capitalize(error.message),
+                  status: 401
+                });
+              }
+              throw error;
+            }
+          }
         }
       }
     },
